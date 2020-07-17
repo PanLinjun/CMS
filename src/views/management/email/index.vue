@@ -1,10 +1,11 @@
 <template>
-  $END$
+  <div>
+    email
+  </div>
 </template>
 
 <script>
   export default {
-    name: "index"
   }
 </script>
 
