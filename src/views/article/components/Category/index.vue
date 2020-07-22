@@ -48,7 +48,7 @@
       return {
         categoryList: {},
         form: {
-          value: '',
+          value: 0,
           label: ''
         },
         dialogFormVisible: false,
@@ -70,7 +70,12 @@
         this.$refs.form.validate(valid => {
           if (valid) {
             const index = this.categoryList.map(arr => arr.value)
-            this.form.value = Math.max(...index) + 1
+            console.log(index)
+            if (index.length === 0) {
+              this.form.value = 1
+            } else {
+              this.form.value = Math.max(...index) + 1
+            }
             const category = Object.assign({}, this.form)
             createCategory(category).then(response => {
               this.$notify({

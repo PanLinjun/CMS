@@ -49,8 +49,8 @@
         </el-form-item>
 
         <div class="button-container">
-          <el-button type="primary">发布</el-button>
-          <el-button type="warning" @click="submitForm">保存为草稿</el-button>
+          <el-button type="primary" @click="submitForm(isDraft = false)">发布</el-button>
+          <el-button type="warning" @click="submitForm(isDraft = true)">保存为草稿</el-button>
           <el-button @click="goBack">返回</el-button>
         </div>
       </div>
@@ -146,12 +146,15 @@
           state
         }
       },
-      submitForm() {
-        console.log(this.postForm)
+      submitForm(isDraft) {
         this.$refs.postForm.validate(valid => {
           if (valid) {
             this.postForm.createUser = this.username
-            this.postForm.state = '草稿'
+            if (isDraft) {
+              this.postForm.state = '草稿'
+            } else {
+              this.postForm.state = '已发布'
+            }
             const article = Object.assign({}, this.postForm)
             if (!this.isEdit) {
               createArticle(article).then(response => {
