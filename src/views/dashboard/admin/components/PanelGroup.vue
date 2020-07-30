@@ -1,5 +1,5 @@
 <template>
-  <el-row :gutter="40" class="panel-group">
+  <el-row :gutter="40" class="panel-group" type="flex" justify="space-around">
     <el-col :span="5" class="card-panel-col">
       <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-admin">
@@ -9,7 +9,7 @@
           <div class="card-panel-text">
             管理员数
           </div>
-<!--          <count-to :start-val="0" :end-val="data.user" :duration="2600" class="card-panel-num" />-->
+          <span class="card-panel-num">{{adminCount}}</span>
         </div>
       </div>
     </el-col>
@@ -23,7 +23,35 @@
           <div class="card-panel-text">
             文章数
           </div>
-          <!--          <count-to :start-val="0" :end-val="data.user" :duration="2600" class="card-panel-num" />-->
+          <span class="card-panel-num">{{articleCount}}</span>
+        </div>
+      </div>
+    </el-col>
+
+    <el-col :span="5" class="card-panel-col">
+      <div class="card-panel">
+        <div class="card-panel-icon-wrapper icon-click">
+          <svg-icon icon-class="click" class-name="card-panel-icon" />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            总点击量
+          </div>
+          <span class="card-panel-num">{{clickCount}}</span>
+        </div>
+      </div>
+    </el-col>
+
+    <el-col :span="5" class="card-panel-col">
+      <div class="card-panel">
+        <div class="card-panel-icon-wrapper icon-comment">
+          <svg-icon icon-class="comment" class-name="card-panel-icon" />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            评论数
+          </div>
+          <span class="card-panel-num">{{commentCount}}</span>
         </div>
       </div>
     </el-col>
@@ -31,8 +59,41 @@
 </template>
 
 <script>
+  import { listAdmin } from '@/api/admin'
+  import { listArticle } from '@/api/article'
+
   export default {
-    name: 'PanelGroup'
+    name: 'PanelGroup',
+    data() {
+      return {
+        adminCount: 0,
+        articleCount: 0,
+        clickCount: 0,
+        commentCount: 0,
+      }
+    },
+    mounted() {
+      this.getAdminCount()
+      this.getArticleCount()
+    },
+    methods: {
+      getAdminCount() {
+        listAdmin().then(response => {
+          const {
+            total
+          } = response
+          this.adminCount = total
+        })
+      },
+      getArticleCount() {
+        listArticle().then(response => {
+          const {
+            total
+          } = response
+          this.articleCount = total
+        })
+      }
+    }
   }
 </script>
 
@@ -67,6 +128,14 @@
       .icon-document {
         background-color: #f4516c;
       }
+
+      .icon-click {
+        background-color: #3A71A8;
+      }
+
+      .icon-comment {
+        background-color: #34bfa3;
+      }
     }
 
     .icon-admin {
@@ -75,6 +144,14 @@
 
     .icon-document {
       color: #f4516c;
+    }
+
+    .icon-click {
+      color: #3A71A8;
+    }
+
+    .icon-comment {
+      color: #34bfa3;
     }
 
     .card-panel-icon-wrapper {
@@ -95,6 +172,7 @@
       font-weight: bold;
       margin: 26px;
       margin-left: 0px;
+      text-align: center;
 
       .card-panel-text {
         line-height: 18px;
@@ -104,7 +182,7 @@
       }
 
       .card-panel-num {
-        font-size: 20px;
+        font-size: 25px;
       }
     }
   }

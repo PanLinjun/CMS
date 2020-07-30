@@ -33,7 +33,7 @@
       <el-col :span="3">
         <el-row type="flex" justify="space-around">
           <el-button type="primary" icon="el-icon-plus"  @click="handleCreate"></el-button>
-          <el-button type="danger" icon="el-icon-delete" ></el-button>
+          <el-button type="danger" icon="el-icon-delete" @click="handleDelete"></el-button>
           <el-button type="success" icon="el-icon-refresh-left"  @click="handleRefresh"></el-button>
         </el-row>
       </el-col>
@@ -42,10 +42,12 @@
 </template>
 
 <script>
+  import { deleteArticle } from '@/api/article'
+
   export default {
   name: 'Topbar',
   inject: ['reload'],
-  props: ['categoryList'],
+  props: ['categoryList', 'ids'],
   data() {
     return {
       listQuery: {}
@@ -79,6 +81,17 @@
         query: this.listQuery
       }).catch(() => {})
       this.reload()
+    },
+    handleDelete() {
+      deleteArticle(this.ids).then(response => {
+        this.$notify({
+          title: '成功',
+          message: response.msg || '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+        this.reload()
+      })
     }
   }
 }

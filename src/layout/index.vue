@@ -1,6 +1,6 @@
 <template>
   <div class="app-wrapper">
-    <sidebar class="sidebar-container"/>
+    <sidebar class="sidebar-container" />
     <div class="main-container">
       <div>
         <navbar />
@@ -26,10 +26,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 
-  .app-wrapper {
-    height: 100%;
-    width: 100%;
-  }
 </style>

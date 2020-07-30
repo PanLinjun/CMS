@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <topbar class="topbar-container" :categoryList="categoryList"/>
-    <list :list="list"/>
+    <topbar class="topbar-container" :categoryList="categoryList" :ids="ids"/>
+    <list :list="list" @ids="handleId"/>
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize" @pagination="getList" />
   </div>
 </template>
@@ -27,7 +27,8 @@ export default {
       total: 0,
       listQuery: {
         pageSize: 10
-      }
+      },
+      ids: []
     }
   },
   mounted() {
@@ -61,6 +62,9 @@ export default {
       listTag().then(response => {
         this.tagList = response.data
       })
+    },
+    handleId(ids) {
+      this.ids = ids
     }
   }
 }

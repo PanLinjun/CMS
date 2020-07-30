@@ -4,7 +4,8 @@
     border
     style="width: 100%"
     highlight-current-row
-    @sort-change="sortChange">
+    @sort-change="sortChange"
+    @selection-change="handleSelectionChange">
     <el-table-column
       fixed
       type="selection"
@@ -19,7 +20,7 @@
       label="状态"
       width="150">
       <template slot-scope="{ row }">
-        <svg-icon icon-class="point" style="height: 9px; width: 9px; color: #ffba00; margin: 0 5px; vertical-align: middle"/>
+        <svg-icon icon-class="point" :class="{'point-active': isActive(row.state)}" style="height: 9px; width: 9px; margin: 0 5px; vertical-align: middle"/>
         <span style="vertical-align: middle">{{row.state}}</span>
       </template>
     </el-table-column>
@@ -95,7 +96,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteArticle(row.id).then(response => {
+        const id = [ row.id ]
+        deleteArticle(id).then(response => {
           this.$notify({
             title: '成功',
             message: response.msg || '删除成功',
@@ -129,6 +131,16 @@ export default {
         query: listQuery
       }).catch(() => {})
       this.reload()
+    },
+    isActive(state) {
+      if (state === '已发布') {
+        return true
+      }
+      return false
+    },
+    handleSelectionChange(rows) {
+      const ids = rows.map(row => row.id)
+      this.$emit('ids', ids)
     }
   }
 }
@@ -140,5 +152,9 @@ export default {
 }
   .item-wrapper {
     margin-right: 15px!important;
+  }
+
+  .point-active {
+    color: #13ce66;
   }
 </style>

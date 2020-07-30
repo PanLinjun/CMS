@@ -108,7 +108,8 @@
           content: [{ validator: validateRequire }]
         },
         categoryList: [],
-        tagList: []
+        tagList: [],
+        id: ''
       }
     },
     created() {
@@ -150,6 +151,7 @@
         this.$refs.postForm.validate(valid => {
           if (valid) {
             this.postForm.createUser = this.username
+            console.log(this.postForm)
             if (isDraft) {
               this.postForm.state = '草稿'
             } else {
@@ -164,6 +166,8 @@
                   type: 'success',
                   duration: 2000
                 })
+                this.id = response.data.id
+                this.$router.push(`/article/edit/${this.id}`)
               }).catch((error) => {
                 console.log(error)
               })
@@ -187,7 +191,6 @@
       getArticleData(id) {
         getArticle(id).then(response => {
           this.setData(response.data)
-          console.log(this.postForm)
         })
       },
       getCategoryList() {
