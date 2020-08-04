@@ -3,16 +3,15 @@
     <el-row type="flex" justify="space-between">
       <el-col :span="10">
         <el-row :gutter="20">
-          <el-col :span="7">
+          <el-col :span="8">
             <el-input
               v-model="listQuery.username"
               placeholder="请输入用户名"
+              clearable
               @keyup.enter.native="handleFilter"
-              @clear="handleFilter"
-              @blur="handleFilter"
             />
           </el-col>
-          <el-button icon="el-icon-search" circle @click="handleRefresh"></el-button>
+          <el-button icon="el-icon-search" circle @click="handleFilter"></el-button>
         </el-row>
       </el-col>
       <el-col :span="3">
@@ -168,9 +167,9 @@
     },
     handleFilter() {
       this.$router.push({
-        path: '/article/list',
+        path: '/management/admin',
         query: this.listQuery
-      })
+      }).catch(() => {})
       this.reload()
     },
     uploadImg(data) {

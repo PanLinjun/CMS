@@ -18,7 +18,7 @@
     </el-table-column>
     <el-table-column
       label="状态"
-      width="150">
+      width="100">
       <template slot-scope="{ row }">
         <svg-icon icon-class="point" :class="{'point-active': isActive(row.state)}" style="height: 9px; width: 9px; margin: 0 5px; vertical-align: middle"/>
         <span style="vertical-align: middle">{{row.state}}</span>
@@ -38,17 +38,17 @@
     <el-table-column
       prop="category"
       label="文档类别"
-      width="150">
+      width="100">
       <template slot-scope="{ row }">
         <el-tag type="primary" class="item-wrapper">{{ row.category }}</el-tag>
       </template>
     </el-table-column>
     <el-table-column
-      prop="tag"
       label="文档标签"
-      min-width="150">
-      <template slot-scope="{ row }">
-        <el-tag v-for="item in row.tag" :label="item.label" :key="item.value" type="success" class="item-wrapper">{{ item }}</el-tag>
+      min-width="200"
+      show-overflow-tooltip="true">
+      <template slot-scope="{ row }" class="tag-wrapper">
+        <el-tag v-for="item in row.tag" :label="item.label" :key="item.value" type="success" class="tag-item ">{{ item }}</el-tag>
       </template>
     </el-table-column>
     <el-table-column
@@ -150,10 +150,10 @@ export default {
 .el-table th.gutter {
   display: table-cell!important;
 }
-  .item-wrapper {
-    margin-right: 15px!important;
-  }
 
+  .tag-item {
+    margin: 0 20px 0 0!important;
+  }
   .point-active {
     color: #13ce66;
   }

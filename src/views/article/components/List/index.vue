@@ -2,7 +2,9 @@
   <div class="app-container">
     <topbar class="topbar-container" :categoryList="categoryList" :ids="ids"/>
     <list :list="list" @ids="handleId"/>
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize" @pagination="getList" />
+    <div class="pagination-container">
+      <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize" @pagination="getList" />
+    </div>
   </div>
 </template>
 
@@ -73,5 +75,9 @@ export default {
 <style lang="scss" scoped>
   .topbar-container {
     margin-bottom: 20px;
+  }
+
+  .pagination-container {
+    text-align: center;
   }
 </style>

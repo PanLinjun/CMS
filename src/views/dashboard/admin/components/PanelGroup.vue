@@ -49,7 +49,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            评论数
+            总评论数
           </div>
           <span class="card-panel-num">{{commentCount}}</span>
         </div>
@@ -61,6 +61,7 @@
 <script>
   import { listAdmin } from '@/api/admin'
   import { listArticle } from '@/api/article'
+  import { listComment } from '@/api/comment'
 
   export default {
     name: 'PanelGroup',
@@ -75,6 +76,7 @@
     mounted() {
       this.getAdminCount()
       this.getArticleCount()
+      this.getCommentCount()
     },
     methods: {
       getAdminCount() {
@@ -85,11 +87,26 @@
           this.adminCount = total
         })
       },
+      getCommentCount() {
+        listComment().then(response => {
+          const {
+            data
+          } = response
+          this.commentCount = data.reduce((accumulator, currentValue) => {
+            return  accumulator + currentValue.childrenCount
+          }, 0)
+        })
+      },
       getArticleCount() {
         listArticle().then(response => {
           const {
+            data,
             total
           } = response
+          console.log(data)
+          this.clickCount = data.reduce((accumulator, currentValue) => {
+            return  accumulator + currentValue.click
+          }, 0)
           this.articleCount = total
         })
       }

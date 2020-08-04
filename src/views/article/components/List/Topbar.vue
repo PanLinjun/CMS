@@ -17,6 +17,7 @@
             <el-input
               v-model="listQuery.title"
               placeholder="请输入关键字"
+              clearable
               @keyup.enter.native="handleFilter"
             />
           </el-col>
@@ -24,6 +25,7 @@
             <el-input
               v-model="listQuery.author"
               placeholder="请输入作者"
+              clearable
               @keyup.enter.native="handleFilter"
             />
           </el-col>
@@ -75,7 +77,6 @@
       this.reload()
     },
     handleFilter() {
-      console.log('top')
       this.$router.push({
         path: '/article/list',
         query: this.listQuery
@@ -83,15 +84,29 @@
       this.reload()
     },
     handleDelete() {
-      deleteArticle(this.ids).then(response => {
+      if (this.ids.length === 0) {
         this.$notify({
-          title: '成功',
-          message: response.msg || '删除成功',
-          type: 'success',
+          message: '未选中任何一项',
+          type: 'fail',
           duration: 2000
         })
-        this.reload()
-      })
+      } else {
+        this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteArticle(this.ids).then(response => {
+            this.$notify({
+              title: '成功',
+              message: response.msg || '删除成功',
+              type: 'success',
+              duration: 2000
+            })
+            this.reload()
+          })
+        })
+      }
     }
   }
 }

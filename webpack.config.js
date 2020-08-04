@@ -41,7 +41,7 @@ module.exports = {
       },
     },
     hot: true,
-    port: 8080,
+    port: 8081,
     historyApiFallback: true,  // spa必须加
   },
   module: {
