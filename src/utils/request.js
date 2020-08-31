@@ -3,8 +3,17 @@ import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
+var baseURL = ''
+if (process.env.NODE_ENV === 'development') {
+  baseURL = '/api'
+}
+
+if (process.env.NODE_ENV === 'production') {
+  baseURL = 'http://119.45.62.78:3001/'
+}
+
 const service = axios.create({
-  baseURL: '/api',
+  baseURL: baseURL,
   timeout: 5000
 })
 

@@ -5,10 +5,11 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpack = require('webpack')
 
-process.env.NODE_ENV = 'development'
+const NODE_ENV = process.env.NODE_ENV
+console.log("--------"+NODE_ENV+"-----------")
 
 module.exports = {
-  mode: 'development',
+  mode: NODE_ENV,
   target: 'web',
   entry: './src/main.js',
   output: {
@@ -32,7 +33,6 @@ module.exports = {
     proxy: {
       '/api': {
         target: 'http://localhost:3001/',
-        // target: 'http://119.45.62.78:3001/',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

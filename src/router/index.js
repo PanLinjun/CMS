@@ -111,12 +111,6 @@ export const asyncRoutes = [
         path: 'admin',
         component: () => import('@/views/management/admin'),
         meta: { title: '用户管理', icon: 'user', roles: ['admin'] }
-      },
-      {
-        name: 'email',
-        path: 'email',
-        component: () => import('@/views/management/email'),
-        meta: { title: '邮件管理', icon: 'email', roles: ['admin'] }
       }
     ]
   },

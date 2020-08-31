@@ -4,18 +4,21 @@
 
     <div style="font-weight: bold; font-size: 20px; color: #666;">欢迎访问管理后台</div>
     <panel-group />
+    <comment-card />
   </div>
 </template>
 
 <script>
   import GithubCorner from '@/components/GithubCorner'
   import PanelGroup from './components/PanelGroup'
+  import CommentCard from './components/CommentCard'
 
   export default {
     name: 'DashboardAdmin',
     components: {
       GithubCorner,
-      PanelGroup
+      PanelGroup,
+      CommentCard
     }
   }
 </script>
