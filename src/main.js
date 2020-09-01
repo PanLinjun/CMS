@@ -13,6 +13,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import './permission' // permission control
 
+import echarts from "echarts"
+
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
@@ -22,3 +24,5 @@ new Vue({
   router,
   store
 }).$mount('#app')
+
+Vue.prototype.$echarts = echarts

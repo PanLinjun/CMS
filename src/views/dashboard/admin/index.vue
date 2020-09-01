@@ -3,8 +3,11 @@
     <github-corner class="github-corner" />
 
     <div style="font-weight: bold; font-size: 20px; color: #666;">欢迎访问管理后台</div>
-    <panel-group />
-    <comment-card />
+    <panel-group @panelClick="handlePanelClick"/>
+    <div class="card-group">
+      <comment-card />
+      <chart-card :clickObj="clickObj"/>
+    </div>
   </div>
 </template>
 
@@ -12,13 +15,25 @@
   import GithubCorner from '@/components/GithubCorner'
   import PanelGroup from './components/PanelGroup'
   import CommentCard from './components/CommentCard'
+  import ChartCard from './components/ChartCard'
 
   export default {
     name: 'DashboardAdmin',
     components: {
       GithubCorner,
       PanelGroup,
-      CommentCard
+      CommentCard,
+      ChartCard
+    },
+    data() {
+      return {
+        clickObj: 'article'
+      }
+    },
+    methods: {
+      handlePanelClick(data) {
+        this.clickObj = data
+      }
     }
   }
 </script>
@@ -34,6 +49,11 @@
       top: 0;
       right: 0;
       border: 0;
+    }
+
+    .card-group {
+      display: flex;
+      justify-content: space-between;
     }
   }
 </style>

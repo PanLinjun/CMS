@@ -41,6 +41,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "cross-env": "^7.0.2",
+    "echarts": "^4.9.0",
     "element-ui": "^2.13.2",
     "js-cookie": "^2.2.1",
     "normalize.css": "^8.0.1",

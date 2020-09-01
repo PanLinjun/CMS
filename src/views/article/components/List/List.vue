@@ -46,7 +46,7 @@
     <el-table-column
       label="文档标签"
       min-width="200"
-      show-overflow-tooltip="true">
+      :show-overflow-tooltip="true">
       <template slot-scope="{ row }" class="tag-wrapper">
         <el-tag v-for="item in row.tag" :label="item.label" :key="item.value" type="success" class="tag-item ">{{ item }}</el-tag>
       </template>

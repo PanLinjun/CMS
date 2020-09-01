@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="40" class="panel-group" type="flex" justify="space-around">
     <el-col :span="5" class="card-panel-col">
-      <div class="card-panel">
+      <div class="card-panel" id="manager">
         <div class="card-panel-icon-wrapper icon-admin">
           <svg-icon icon-class="admin" class-name="card-panel-icon" />
         </div>
@@ -15,7 +15,7 @@
     </el-col>
 
     <el-col :span="5" class="card-panel-col">
-      <div class="card-panel">
+      <div class="card-panel" id="article" @click="handleClick">
         <div class="card-panel-icon-wrapper icon-document">
           <svg-icon icon-class="document" class-name="card-panel-icon" />
         </div>
@@ -29,7 +29,7 @@
     </el-col>
 
     <el-col :span="5" class="card-panel-col">
-      <div class="card-panel">
+      <div class="card-panel" id="click" @click="handleClick">
         <div class="card-panel-icon-wrapper icon-click">
           <svg-icon icon-class="click" class-name="card-panel-icon" />
         </div>
@@ -43,7 +43,7 @@
     </el-col>
 
     <el-col :span="5" class="card-panel-col">
-      <div class="card-panel">
+      <div class="card-panel" id="comment" @click="handleClick">
         <div class="card-panel-icon-wrapper icon-comment">
           <svg-icon icon-class="comment" class-name="card-panel-icon" />
         </div>
@@ -103,12 +103,14 @@
             data,
             total
           } = response
-          console.log(data)
           this.clickCount = data.reduce((accumulator, currentValue) => {
             return  accumulator + currentValue.click
           }, 0)
           this.articleCount = total
         })
+      },
+      handleClick(e) {
+        this.$emit('panelClick', e.currentTarget.id)
       }
     }
   }
