@@ -4,11 +4,17 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpack = require('webpack')
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin")
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+const TerserJSPlugin = require('terser-webpack-plugin')
+
+const smp = new SpeedMeasurePlugin()
+
 
 const NODE_ENV = process.env.NODE_ENV
 console.log("--------"+NODE_ENV+"-----------")
 
-module.exports = {
+WebpackConfig = {
   mode: NODE_ENV,
   target: 'web',
   entry: './src/main.js',
@@ -33,13 +39,14 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader'
+        use: ['cache-loader', 'vue-loader']
       },
       {
         test: /\.scss$/,
         include: path.resolve(__dirname, 'src/styles/variables'),
         use: [
           { loader: MiniCssExtractPlugin.loader},
+          'cache-loader',
           {
             loader: "css-loader",
             options: {
@@ -57,6 +64,7 @@ module.exports = {
         exclude: path.resolve(__dirname, 'src/styles/variables'),
         use: [
           { loader: MiniCssExtractPlugin.loader},
+          'cache-loader',
           "css-loader",
           'postcss-loader',
           'sass-loader'
@@ -66,6 +74,7 @@ module.exports = {
         test: /\.css$/,
         use: [
           { loader: MiniCssExtractPlugin.loader},
+          'cache-loader',
           'css-loader',
           'postcss-loader'
         ]
@@ -73,7 +82,12 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: ['babel-loader'],
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true
+          }
+        }],
       },
       {
         test: /\.(jpe?g|png|gif)$/,
@@ -120,6 +134,16 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/[name].css'
     }),
-    new webpack.HotModuleReplacementPlugin()
-  ]
+    new webpack.HotModuleReplacementPlugin(),
+    new ProgressBarPlugin()
+  ],
+  optimization: {
+    minimizer: [new TerserJSPlugin({
+      cache: true, // 是否缓存
+      parallel: true, // 是否并行打包
+      sourceMap: true
+    })],
+  },
 }
+
+module.exports = smp.wrap(WebpackConfig)
