@@ -3,10 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const webpack = require('webpack')
 const SpeedMeasurePlugin = require("speed-measure-webpack-plugin")
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
-const TerserJSPlugin = require('terser-webpack-plugin')
 
 const smp = new SpeedMeasurePlugin()
 
@@ -17,10 +15,12 @@ console.log("--------"+NODE_ENV+"-----------")
 WebpackConfig = {
   mode: NODE_ENV,
   target: 'web',
-  entry: './src/main.js',
+  entry: {
+    main: './src/main.js'
+  },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'js/bundle.js',
+    filename: 'js/[name].[hash:8].js',
     publicPath: '/' //output, devServer的pubicPath 必须一样
   },
   resolve: {
@@ -33,7 +33,8 @@ WebpackConfig = {
     modules: false,
     children: false,
     chunks: false,
-    chunkModules: false
+    chunkModules: false,
+    warnings: false
   },
   module: {
     rules: [
@@ -134,16 +135,24 @@ WebpackConfig = {
     new MiniCssExtractPlugin({
       filename: 'css/[name].css'
     }),
-    new webpack.HotModuleReplacementPlugin(),
-    new ProgressBarPlugin()
+    new ProgressBarPlugin(),
   ],
   optimization: {
-    minimizer: [new TerserJSPlugin({
-      cache: true, // 是否缓存
-      parallel: true, // 是否并行打包
-      sourceMap: true
-    })],
-  },
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          chunks: 'initial',
+          name: 'commons'
+        },
+        'vendor-A': {
+          test: /vue|vuex|vue-router|axios|echarts|element-ui|normalize.css/,
+          chunks: "initial",
+          name: "vendor-A",
+          enforce: true
+        }
+      }
+    }
+  }
 }
 
 module.exports = smp.wrap(WebpackConfig)
